@@ -1,0 +1,6 @@
+set QPID_WORK=C:\qpidwork
+
+bin\qpid-server -prop "qpid.amqp_port=10003"	
+
+queue.ocm.in
+queue.logstash.out
