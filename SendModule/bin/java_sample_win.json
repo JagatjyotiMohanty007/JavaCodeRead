@@ -1,0 +1,62 @@
+{
+  "loaders": [
+      {
+          "type": "java",
+          "name": "java",
+          "configuration":{
+              "jvm.options":{
+                  "library.path": "..\\..\\bindings\\java\\Debug"
+              },
+              "binding.path": "..\\..\\bindings\\java\\Debug\\java_module_host.dll"
+          }
+          
+      }
+  ],
+  "modules": [
+  
+      {
+          "name": "sendmodule",
+          "loader":{
+              "name": "java",
+              "entrypoint": {
+                  "class.name": "SendModule",
+                  "class.path": "..\\..\\..\\samples\\java_sample\\java_modules\\SendModule\\target\\sample-send-module-1.0.1-with-deps.jar"
+              }
+          },
+          "args": {
+		            "connection_String": "HostName=JagatGWTestIoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=l6zejKKfWZwVD8iDj8rJd+jFkTOpEzobWATz02DQtHg=;DeviceId=GatewayEntry1;SharedAccessKey=mmsrH6qa+6l4eobP7Qq4hJxXCk6qTHhaO9HC1dme9/E="				       
+				  }
+      },
+      {
+          "name": "readmodule",
+          "loader":{
+              "name": "java",
+              "entrypoint": {
+                  "class.name": "ReadModule",
+                  "class.path": "..\\..\\..\\samples\\java_sample\\java_modules\\ReadModule\\target\\sample-read-module-1.0.1-with-deps.jar"
+              }
+          },
+          "args": null
+      },
+      {
+          "name": "logger",
+          "loader": {
+              "name": "native",
+              "entrypoint": {
+                  "module.path": "..\\..\\modules\\logger\\Debug\\logger.dll"
+              }
+          },
+          "args": { "filename": "Gatewaylog.txt" }
+      }
+  ],
+  "links": [
+      {
+          "source": "*",
+          "sink": "logger"
+      },
+      {
+          "source": "readmodule",
+          "sink": "sendmodule"
+      }
+  ]
+}
